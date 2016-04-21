@@ -316,51 +316,9 @@
     var returnedValues = [];
     return function(){
       var argList = JSON.stringify(arguments);
-      if(_.indexOf(calledArgs, argList) === -1){
-        calledArgs.push(argList);
-        returnedValues.push(func.apply(this, arguments));
-      }
-      return returnedValues[_.indexOf(calledArgs, argList)];
-    }
-  };
-
-  // Delays a function for the given number of milliseconds, and then calls
-  // it with the arguments supplied.
-  //
-  // The arguments for the original function are passed after the wait
-  // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
-  // call someFunction('a', 'b') after 500ms
-  _.delay = function(func, wait) {
-    var funcArgs = [];
-    for(var x = 2; x < arguments.length; x++){
-      funcArgs.push(arguments[x]);
-    }
-    setTimeout(function(){
-      return func.apply(this, funcArgs);
-    }, wait);
-  };
 
 
-  /**
-   * ADVANCED COLLECTION OPERATIONS
-   * ==============================
-   */
-
-  // Randomizes the order of an array's contents.
-  //
-  // TIP: This function's test suite will ask that you not modify the original
-  // input array. For a tip on how to make a copy of an array, see:
-  // http://mdn.io/Array.prototype.slice
-  _.shuffle = function(array) {
-    var origArray = array.slice();
-    var shuffledArray = [];
-
-    while(shuffledArray.length < array.length){
-      shuffledArray.push(origArray.splice(Math.floor(Math.random() * origArray.length), 1)[0]);
-    }
-
-    return shuffledArray;
-  };
+|  };
 
 
   /**
@@ -374,6 +332,10 @@
   // Calls the method named by functionOrKey on each value in the list.
   // Note: You will need to learn a bit about .apply to complete this.
   _.invoke = function(collection, functionOrKey, args) {
+    _.each(collection, function(item){
+      Array.prototype[functionOrKey].apply(collection, args);
+    });
+    return collection;
   };
 
   // Sort the object's values by a criterion produced by an iterator.
@@ -405,10 +367,10 @@
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
-  _.difference = function(array) {
-  };
+  _;'[0[]
+  t\
 
-  // Returns a function, that, when invoked, will only be triggered at most once
+   ng`7 678 7`!```````````````````````Returns a function, that, when invoked, will only be triggered at most once
   // during a given window of time.  See the Underbar readme for extra details
   // on this function.
   //
