@@ -243,11 +243,32 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var addToObject = function(value, key){
+      obj[key] = value;
+    };
+    for(var x = 1; x < arguments.length; x++){
+      if(typeof arguments[x] === "object"){
+        _.each(arguments[x], addToObject);
+      }
+    }
+    return obj;
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var addNewToObject = function(value, key){
+      if(!obj.hasOwnProperty(key)){
+        obj[key] = value;
+      }
+    };
+
+    for(var x = 1; x < arguments.length; x++){
+      if(typeof arguments[x] === "object"){
+        _.each(arguments[x], addNewToObject);
+      }
+    }
+    return obj;
   };
 
 
@@ -291,6 +312,16 @@
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var calledArgs = [];
+    var returnedValues = [];
+    return function(){
+      var argList = JSON.stringify(arguments);
+      if(_.indexOf(calledArgs, argList) === -1){
+        calledArgs.push(argList);
+        returnedValues.push(func.apply(this, arguments));
+      }
+      return returnedValues[_.indexOf(calledArgs, argList)];
+    }
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -300,6 +331,13 @@
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var funcArgs = [];
+    for(var x = 2; x < arguments.length; x++){
+      funcArgs.push(arguments[x]);
+    }
+    setTimeout(function(){
+      return func.apply(this, funcArgs);
+    }, wait);
   };
 
 
@@ -314,6 +352,14 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var origArray = array.slice();
+    var shuffledArray = [];
+
+    while(shuffledArray.length < array.length){
+      shuffledArray.push(origArray.splice(Math.floor(Math.random() * origArray.length), 1)[0]);
+    }
+
+    return shuffledArray;
   };
 
 
